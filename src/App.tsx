@@ -5,7 +5,6 @@ import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 
 import StartGameScreen from './screens/StartGameScreen';
 import GameScreen from './screens/GameScreen';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import { COLORS } from './constants/colors';
 
 export default function App() {
