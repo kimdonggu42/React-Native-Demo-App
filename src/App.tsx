@@ -8,10 +8,10 @@ import GameScreen from './screens/GameScreen';
 import { COLORS } from './constants/colors';
 
 export default function App() {
-  const [userNumber, setUserNumber] = useState<number | null>(null);
+  const [userPickedNumber, setUserPickedNumber] = useState<number | null>(null);
 
   const pickedNumberHandler = (pickedNumber: number) => {
-    setUserNumber(pickedNumber);
+    setUserPickedNumber(pickedNumber);
   };
 
   return (
@@ -23,7 +23,11 @@ export default function App() {
         imageStyle={styles.backgroundImage}
       >
         <SafeAreaView style={styles.rootScreen}>
-          {userNumber ? <GameScreen /> : <StartGameScreen onPickNumber={pickedNumberHandler} />}
+          {userPickedNumber ? (
+            <GameScreen userPickedNumber={userPickedNumber} />
+          ) : (
+            <StartGameScreen pickedNumberHandler={pickedNumberHandler} />
+          )}
         </SafeAreaView>
       </ImageBackground>
     </LinearGradient>

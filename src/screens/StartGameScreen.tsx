@@ -1,26 +1,26 @@
 import { useState } from 'react';
 import { TextInput, View, StyleSheet, Alert } from 'react-native';
 
-import PrimaryButton from '@/components/PrimaryButton';
+import PrimaryButton from '@/components/ui/PrimaryButton';
 import { COLORS } from '@/constants/colors';
 
 interface StartGameScreenProps {
-  onPickNumber: (pickedNumber: number) => void;
+  pickedNumberHandler: (pickedNumber: number) => void;
 }
 
-export default function StartGameScreen({ onPickNumber }: StartGameScreenProps) {
-  const [enteredNumber, setEnteredNumber] = useState<string>('');
+export default function StartGameScreen({ pickedNumberHandler }: StartGameScreenProps) {
+  const [pickedNumber, setPickedNumber] = useState<string>('');
 
   const numberInputHandler = (enteredText: string) => {
-    setEnteredNumber(enteredText);
+    setPickedNumber(enteredText);
   };
 
   const resetInputHandler = () => {
-    setEnteredNumber('');
+    setPickedNumber('');
   };
 
   const confirmInputHandler = () => {
-    const choseNumber = parseInt(enteredNumber);
+    const choseNumber = Number(pickedNumber);
 
     if (isNaN(choseNumber) || choseNumber <= 0 || choseNumber >= 99) {
       Alert.alert('Invalid number!', 'Number has to be a number between 1 and 99.', [
@@ -33,7 +33,7 @@ export default function StartGameScreen({ onPickNumber }: StartGameScreenProps) 
       return;
     }
 
-    onPickNumber(choseNumber);
+    pickedNumberHandler(choseNumber);
   };
 
   return (
@@ -45,7 +45,7 @@ export default function StartGameScreen({ onPickNumber }: StartGameScreenProps) 
         autoCapitalize='none'
         autoCorrect={false}
         onChangeText={numberInputHandler}
-        value={enteredNumber}
+        value={pickedNumber}
       />
       <View style={styles.buttonsContainer}>
         <View style={styles.buttonContainer}>

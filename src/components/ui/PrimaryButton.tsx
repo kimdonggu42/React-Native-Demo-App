@@ -4,7 +4,7 @@ import { COLORS } from '@/constants/colors';
 
 interface PrimaryButtonProps {
   children: string;
-  onPress: any;
+  onPress: () => void;
 }
 
 export default function PrimaryButton({ children, onPress }: PrimaryButtonProps) {
