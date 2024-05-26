@@ -9,6 +9,8 @@ import Card from '@/components/ui/Card';
 import InstructionText from '@/components/ui/InstructionText';
 import GuessLogItem from '@/components/game/GuessLogItem';
 import { COLORS } from '@/constants/colors';
+import { ROUTE_NAME } from '@/constants/path';
+import { GameScreenProps } from '../../navigation';
 
 const generateRandomBetween = (min: number, max: number, exclude: number): number => {
   const randomNumber = Math.floor(Math.random() * (max - min)) + min;
@@ -24,16 +26,20 @@ const generateRandomBetween = (min: number, max: number, exclude: number): numbe
 let minBoundary = 1;
 let maxBoundary = 100;
 
-export default function GameScreen({ navigation, route, setPickedNumber }: any) {
-  const { pickedNumber: stringPickedNumber } = route.params;
-  const pickedNumber = Number(stringPickedNumber);
-  const initialCuess = generateRandomBetween(minBoundary, maxBoundary, pickedNumber);
+export default function GameScreen({ navigation, route }: GameScreenProps) {
+  const { pickedNumber } = route.params;
+  const parsedPickedNumber = Number(pickedNumber);
+  // GameScreen 컴포넌트가 리렌더링 될 때 마다 initialCuess는 다시 실행된다. 이때마다 새로운 난수를 다시 생성하고
+  // 문제는 하한값과 상한값이 동일한 때에도 최종 결과를 도출했기 때문에 함수가 실행된다.
+  // 그래서 initialCuess는 최초 한 번만 필요하므로 최대, 최소값을 하드 코딩한다.
+  const initialCuess = generateRandomBetween(1, 100, parsedPickedNumber);
+
   const [currentGuess, setCurrentGuess] = useState<number>(initialCuess);
   const [guessRounds, setGuessRounds] = useState<number[]>([initialCuess]);
   const [gameIsOver, setGameIsOver] = useState<boolean>(false);
 
   useEffect(() => {
-    if (currentGuess === pickedNumber) {
+    if (currentGuess === parsedPickedNumber) {
       setGameIsOver(true);
     }
   }, [currentGuess]);
@@ -46,8 +52,8 @@ export default function GameScreen({ navigation, route, setPickedNumber }: any) 
   const nextGuessHandler = (direction: string) => {
     return () => {
       if (
-        (direction === 'lower' && currentGuess < pickedNumber) ||
-        (direction === 'greater' && currentGuess > pickedNumber)
+        (direction === 'lower' && currentGuess < parsedPickedNumber) ||
+        (direction === 'greater' && currentGuess > parsedPickedNumber)
       ) {
         Alert.alert("Don't lie!", 'You know that this is wrong...', [
           {
@@ -63,6 +69,7 @@ export default function GameScreen({ navigation, route, setPickedNumber }: any) 
       } else {
         minBoundary = currentGuess + 1;
       }
+
       const newRandomNumber = generateRandomBetween(minBoundary, maxBoundary, currentGuess);
       setCurrentGuess(newRandomNumber);
       setGuessRounds((prevGuessRounds) => [newRandomNumber, ...prevGuessRounds]);
@@ -70,8 +77,7 @@ export default function GameScreen({ navigation, route, setPickedNumber }: any) 
   };
 
   const startNewGameHandler = () => {
-    setPickedNumber('');
-    navigation.navigate('StartGameScreen');
+    navigation.navigate(ROUTE_NAME.startGameScreen);
   };
 
   return (
@@ -84,7 +90,7 @@ export default function GameScreen({ navigation, route, setPickedNumber }: any) 
           </View>
           <Text style={styles.summaryText}>
             Your Phone needed <Text style={styles.highlight}>{guessRounds.length}</Text> rounds to
-            guess the number <Text style={styles.highlight}>{pickedNumber}</Text>.
+            guess the number <Text style={styles.highlight}>{parsedPickedNumber}</Text>.
           </Text>
           <PrimaryButton onPress={startNewGameHandler}>Start New Game</PrimaryButton>
         </View>

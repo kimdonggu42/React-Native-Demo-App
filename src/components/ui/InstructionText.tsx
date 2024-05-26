@@ -2,7 +2,12 @@ import { Text, StyleSheet } from 'react-native';
 
 import { COLORS } from '@/constants/colors';
 
-export default function InstructionText({ children, style }: any) {
+interface InstructionTextProps {
+  children: string;
+  style?: object;
+}
+
+export default function InstructionText({ children, style }: InstructionTextProps) {
   return <Text style={[styles.instructionText, style]}>{children}</Text>;
 }
 

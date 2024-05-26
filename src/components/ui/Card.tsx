@@ -2,7 +2,7 @@ import { View, StyleSheet } from 'react-native';
 
 import { COLORS } from '@/constants/colors';
 
-export default function Card({ children }: any) {
+export default function Card({ children }: { children: React.ReactNode }) {
   return <View style={styles.card}>{children}</View>;
 }
 

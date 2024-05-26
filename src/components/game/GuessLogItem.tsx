@@ -2,7 +2,12 @@ import { View, Text, StyleSheet } from 'react-native';
 
 import { COLORS } from '@/constants/colors';
 
-function GuessLogItem({ roundNumber, guess }: any) {
+interface GuessLogItemProps {
+  roundNumber: number;
+  guess: number;
+}
+
+function GuessLogItem({ roundNumber, guess }: GuessLogItemProps) {
   return (
     <View style={styles.listItem}>
       <Text style={styles.itemText}>#{roundNumber}</Text>
