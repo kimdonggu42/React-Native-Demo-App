@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { TextInput, View, StyleSheet, Alert } from 'react-native';
 
 import PrimaryButton from '@/components/ui/PrimaryButton';
@@ -7,9 +6,7 @@ import Card from '@/components/ui/Card';
 import InstructionText from '@/components/ui/InstructionText';
 import { COLORS } from '@/constants/colors';
 
-export default function StartGameScreen({ navigation }: any) {
-  const [pickedNumber, setPickedNumber] = useState<string>('');
-
+export default function StartGameScreen({ navigation, pickedNumber, setPickedNumber }: any) {
   const numberInputHandler = (enteredText: string) => {
     setPickedNumber(enteredText);
   };
