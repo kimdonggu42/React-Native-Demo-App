@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 
 import NumberContainer from '@/components/game/NumberContainer';
@@ -20,9 +20,17 @@ let minBoundary = 1;
 let maxBoundary = 100;
 
 export default function GameScreen({ route }: any) {
-  const { pickedNumber } = route.params;
+  const { pickedNumber: stringPickedNumber } = route.params;
+  const pickedNumber = Number(stringPickedNumber);
   const initialCuess = generateRandomBetween(minBoundary, maxBoundary, pickedNumber);
-  const [currentGuess, setCurrentGuess] = useState(initialCuess);
+  const [currentGuess, setCurrentGuess] = useState<number>(initialCuess);
+  const [gameIsOver, setGameIsOver] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (currentGuess === pickedNumber) {
+      setGameIsOver(true);
+    }
+  }, [currentGuess]);
 
   const nextGuessHandler = (direction: string) => {
     return () => {
@@ -50,18 +58,24 @@ export default function GameScreen({ route }: any) {
   };
 
   return (
-    <View style={styles.screen}>
-      <Title>Opponent's Guess</Title>
-      <NumberContainer>{currentGuess}</NumberContainer>
-      <View>
-        <Text>Higher or lower?</Text>
-        <View>
-          <PrimaryButton onPress={nextGuessHandler('lower')}>-</PrimaryButton>
-          <PrimaryButton onPress={nextGuessHandler('greater')}>+</PrimaryButton>
+    <>
+      {gameIsOver ? (
+        <Text>Game is Over!</Text>
+      ) : (
+        <View style={styles.screen}>
+          <Title>Opponent's Guess</Title>
+          <NumberContainer>{currentGuess}</NumberContainer>
+          <View>
+            <Text>Higher or lower?</Text>
+            <View>
+              <PrimaryButton onPress={nextGuessHandler('lower')}>-</PrimaryButton>
+              <PrimaryButton onPress={nextGuessHandler('greater')}>+</PrimaryButton>
+            </View>
+          </View>
+          {/* <View>LOG ROUNDS</View> */}
         </View>
-      </View>
-      {/* <View>LOG ROUNDS</View> */}
-    </View>
+      )}
+    </>
   );
 }
 
