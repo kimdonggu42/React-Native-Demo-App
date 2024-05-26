@@ -7,7 +7,7 @@ interface PrimaryButtonProps {
   onPress: () => void;
 }
 
-export default function PrimaryButton({ children, onPress }: PrimaryButtonProps) {
+export default function PrimaryButton({ children, onPress }: any) {
   return (
     <View style={styles.buttonOuterContainer}>
       <Pressable
