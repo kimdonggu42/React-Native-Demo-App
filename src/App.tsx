@@ -1,4 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
+import { useFonts } from 'expo-font';
 
 import { StyleSheet, ImageBackground, SafeAreaView } from 'react-native';
 
@@ -6,6 +7,11 @@ import Routes from './Routes';
 import { COLORS } from './constants/colors';
 
 export default function App() {
+  useFonts({
+    'open-sans': require('../assets/fonts/OpenSans-Regular.ttf'),
+    'open-sans-bold': require('../assets/fonts/OpenSans-Bold.ttf'),
+  });
+
   return (
     <LinearGradient colors={[COLORS.primary700, COLORS.accent500]} style={styles.rootScreen}>
       <ImageBackground
@@ -28,5 +34,9 @@ const styles = StyleSheet.create({
   },
   backgroundImage: {
     opacity: 0.15,
+  },
+  test: {
+    color: 'black',
+    fontSize: 100,
   },
 });
