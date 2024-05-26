@@ -4,11 +4,7 @@ import { TextInput, View, StyleSheet, Alert } from 'react-native';
 import PrimaryButton from '@/components/ui/PrimaryButton';
 import { COLORS } from '@/constants/colors';
 
-interface StartGameScreenProps {
-  pickedNumberHandler: (pickedNumber: number) => void;
-}
-
-export default function StartGameScreen({ pickedNumberHandler }: StartGameScreenProps) {
+export default function StartGameScreen({ navigation }: any) {
   const [pickedNumber, setPickedNumber] = useState<string>('');
 
   const numberInputHandler = (enteredText: string) => {
@@ -33,7 +29,9 @@ export default function StartGameScreen({ pickedNumberHandler }: StartGameScreen
       return;
     }
 
-    pickedNumberHandler(choseNumber);
+    navigation.navigate('GameScreen', {
+      pickedNumber,
+    });
   };
 
   return (

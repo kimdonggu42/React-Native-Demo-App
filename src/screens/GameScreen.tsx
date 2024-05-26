@@ -5,11 +5,7 @@ import NumberContainer from '@/components/game/NumberContainer';
 import Title from '@/components/ui/Title';
 import PrimaryButton from '@/components/ui/PrimaryButton';
 
-interface GameScreenProps {
-  userPickedNumber: number;
-}
-
-const generateRandomBetween = (min: number, max: number, exclude: number): any => {
+const generateRandomBetween = (min: number, max: number, exclude: number): number => {
   const randomNumber = Math.floor(Math.random() * (max - min)) + min;
 
   // 앱이 사용자가 처음 입력한 값을 바로 맞히지 못하도록 하기 위함
@@ -23,15 +19,16 @@ const generateRandomBetween = (min: number, max: number, exclude: number): any =
 let minBoundary = 1;
 let maxBoundary = 100;
 
-export default function GameScreen({ userPickedNumber }: GameScreenProps) {
-  const initialCuess = generateRandomBetween(minBoundary, maxBoundary, userPickedNumber);
+export default function GameScreen({ route }: any) {
+  const { pickedNumber } = route.params;
+  const initialCuess = generateRandomBetween(minBoundary, maxBoundary, pickedNumber);
   const [currentGuess, setCurrentGuess] = useState(initialCuess);
 
   const nextGuessHandler = (direction: string) => {
     return () => {
       if (
-        (direction === 'lower' && currentGuess < userPickedNumber) ||
-        (direction === 'greater' && currentGuess > userPickedNumber)
+        (direction === 'lower' && currentGuess < pickedNumber) ||
+        (direction === 'greater' && currentGuess > pickedNumber)
       ) {
         Alert.alert("Don't lie!", 'You know that this is wrong...', [
           {
