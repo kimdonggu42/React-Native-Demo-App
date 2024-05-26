@@ -14,6 +14,7 @@ export default function Routes() {
       <Stack.Navigator
         initialRouteName='StartGameScreen'
         screenOptions={{
+          headerShown: false,
           headerTintColor: 'white',
           headerStyle: { backgroundColor: 'transparent' },
           contentStyle: { backgroundColor: 'transparent' },
