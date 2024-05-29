@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { View, StyleSheet, Alert, Image, Text, FlatList } from 'react-native';
+import { View, StyleSheet, Alert, Image, Text, FlatList, useWindowDimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import NumberContainer from '@/components/game/NumberContainer';
@@ -37,6 +37,10 @@ export default function GameScreen({ navigation, route }: GameScreenProps) {
   const [currentGuess, setCurrentGuess] = useState<number>(initialCuess);
   const [guessRounds, setGuessRounds] = useState<number[]>([initialCuess]);
   const [gameIsOver, setGameIsOver] = useState<boolean>(false);
+
+  const { width } = useWindowDimensions();
+  const widthAndHeight = width < 380 ? 150 : 300;
+  const borderRadius = width < 400 ? 75 : 150;
 
   useEffect(() => {
     if (currentGuess === parsedPickedNumber) {
@@ -85,7 +89,14 @@ export default function GameScreen({ navigation, route }: GameScreenProps) {
       {gameIsOver ? (
         <View style={styles.rootContainer}>
           <Title>GAME OVER!</Title>
-          <View style={styles.imageContainer}>
+          <View
+            style={[
+              styles.imageContainer,
+              { width: widthAndHeight },
+              { height: widthAndHeight },
+              { borderRadius },
+            ]}
+          >
             <Image style={styles.image} source={require('../../assets/images/success.png')} />
           </View>
           <Text style={styles.summaryText}>
@@ -97,22 +108,42 @@ export default function GameScreen({ navigation, route }: GameScreenProps) {
       ) : (
         <View style={styles.screen}>
           <Title>Opponent's Guess</Title>
-          <NumberContainer>{currentGuess}</NumberContainer>
-          <Card>
-            <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
-            <View style={styles.buttonsContainer}>
-              <View style={styles.buttonContainer}>
-                <PrimaryButton onPress={nextGuessHandler('lower')}>
-                  <Ionicons name='remove' size={24} color='white' />
-                </PrimaryButton>
+          {width > 500 ? (
+            <>
+              <InstructionText style={styles.instructionText}>Higher or lower?</InstructionText>
+              <View style={styles.buttonsContainerWide}>
+                <View style={styles.buttonContainer}>
+                  <PrimaryButton onPress={nextGuessHandler('lower')}>
+                    <Ionicons name='remove' size={24} color='white' />
+                  </PrimaryButton>
+                </View>
+                <NumberContainer>{currentGuess}</NumberContainer>
+                <View style={styles.buttonContainer}>
+                  <PrimaryButton onPress={nextGuessHandler('greater')}>
+                    <Ionicons name='add' size={24} color='white' />
+                  </PrimaryButton>
+                </View>
               </View>
-              <View style={styles.buttonContainer}>
-                <PrimaryButton onPress={nextGuessHandler('greater')}>
-                  <Ionicons name='add' size={24} color='white' />
-                </PrimaryButton>
-              </View>
-            </View>
-          </Card>
+            </>
+          ) : (
+            <>
+              <NumberContainer>{currentGuess}</NumberContainer>
+              <Card>
+                <View style={styles.buttonsContainer}>
+                  <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={nextGuessHandler('lower')}>
+                      <Ionicons name='remove' size={24} color='white' />
+                    </PrimaryButton>
+                  </View>
+                  <View style={styles.buttonContainer}>
+                    <PrimaryButton onPress={nextGuessHandler('greater')}>
+                      <Ionicons name='add' size={24} color='white' />
+                    </PrimaryButton>
+                  </View>
+                </View>
+              </Card>
+            </>
+          )}
           <View style={styles.listContainer}>
             <FlatList
               data={guessRounds}
@@ -138,9 +169,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   imageContainer: {
-    width: 300,
-    height: 300,
-    borderRadius: 150,
     borderWidth: 3,
     borderColor: COLORS.primary700,
     overflow: 'hidden',
@@ -153,6 +181,7 @@ const styles = StyleSheet.create({
   screen: {
     flex: 1,
     padding: 24,
+    alignItems: 'center',
   },
   instructionText: {
     marginBottom: 12,
@@ -162,6 +191,10 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flex: 1,
+  },
+  buttonsContainerWide: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   summaryText: {
     fontFamily: 'open-sans',
