@@ -132,12 +132,12 @@ export default function GameScreen({ navigation, route }: GameScreenProps) {
                 <View style={styles.buttonsContainer}>
                   <View style={styles.buttonContainer}>
                     <PrimaryButton onPress={nextGuessHandler('lower')}>
-                      <Ionicons name='remove' size={24} color='white' />
+                      <Ionicons name='remove' size={24} color='#416D19' />
                     </PrimaryButton>
                   </View>
                   <View style={styles.buttonContainer}>
                     <PrimaryButton onPress={nextGuessHandler('greater')}>
-                      <Ionicons name='add' size={24} color='white' />
+                      <Ionicons name='add' size={24} color='#416D19' />
                     </PrimaryButton>
                   </View>
                 </View>

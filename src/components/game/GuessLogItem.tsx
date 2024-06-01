@@ -30,12 +30,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '100%',
     elevation: 4,
-    shadowColor: 'black',
+    shadowColor: COLORS.primary800,
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.25,
     shadowRadius: 3,
   },
   itemText: {
     fontFamily: 'open-sans',
+    color: COLORS.primary800,
   },
 });
