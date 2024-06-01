@@ -17,13 +17,13 @@ export default function NumberContainer({ children }: { children: number }) {
 const styles = StyleSheet.create({
   container: {
     borderWidth: 4,
-    borderColor: COLORS.accent500,
+    borderColor: COLORS.primary800,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',
   },
   numberText: {
-    color: COLORS.accent500,
+    color: COLORS.primary800,
     fontFamily: 'open-sans-bold',
   },
 });

@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   buttonInnerContainer: {
-    backgroundColor: COLORS.accent500,
+    backgroundColor: COLORS.primary500,
     paddingVertical: 8,
     paddingHorizontal: 16,
   },
   buttonText: {
-    color: COLORS.primary800,
+    color: 'white',
     textAlign: 'center',
   },
   pressed: {
