@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "first-native-app",
+    "name": "Guess My Number",
     "slug": "first-native-app",
     "version": "1.0.0",
     "orientation": "default",
